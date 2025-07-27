@@ -1,14 +1,27 @@
-# Import matplotlib library here
-import matplotlib.pyplot as plt
+import csv
+import numpy as np
 
-# Let's rank some of our favorite snacks
-snack_scores = [100, 80, 60]
-snack_names = ["yogurt", "watermelon", "peanuts"]
-               
-plt.pie(snack_scores, labels=snack_names)
+# ADD CODE: Convert titanic1.csv
+with open("titanic1.csv", "r") as file:
+    data = csv.reader(file, delimiter=",")
+    header=next(data)
+    data_list = list(data)
+    titanic_data1 = np.array(data_list)
 
-# Give your pie chart a title in the quotes
-plt.title("Thais' favorite snacks")
 
-# Put the name of your file in the quotes and give it a .png extension
-plt.savefig("SnackVisual.png")
+
+# ADD CODE: Convert titanic2.csv 
+with open("titanic2.csv", "r") as file:
+  data = csv.reader(file, delimiter=",")
+  header = next(data)
+  data_list = list(data)
+  titanic_data2 = np.array(data_list)
+
+# ADD CODE: Merge two datasets
+  combined_data = np.concatenate((titanic_data1, titanic_data2), axis =0)
+
+
+
+# ADD CODE: Print out shape and number of dimensions of merged dataset
+print(combined_data.shape)
+print(combined_data.ndim)
