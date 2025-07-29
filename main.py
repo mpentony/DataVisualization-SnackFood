@@ -1,32 +1,30 @@
 import csv
 import numpy as np
 
-with open("titanic1.csv", "r") as file:
-  data = csv.reader(file,delimiter=",")
+with open("titanic.csv", "r") as file:
+  data = csv.reader(file, delimiter=",")
   headers = next(data)
-  data_list = list(data)
-  titanic_data1 = np.array(data_list)
+  data = list(data)
+  data = np.array(data)
+  
 
-with open("titanic2.csv", "r") as file:
-  data = csv.reader(file,delimiter=",")
-  headers = next(data)
-  data_list = list(data)
-  titanic_data2 = np.array(data_list)
+survived = np.array(data[:,[0]], dtype=int).flatten()
+print(headers)
+fare = np.array(data[:,[7]], dtype=float).flatten()
 
-combined_data = np.concatenate((titanic_data1, titanic_data2), axis=0)
-print(combined_data.shape)
-print(combined_data.ndim)
+#empty lists to hold data from  the for loop
+fare_survived = []
+fare_not_survived = []
 
-# Transform your merged dataset back into a regular list and then a string
-listify = combined_data.tolist()
+#ADD CODE: for loop and if/else statements
+for i in range(0, len(fare)):
+  if survived[i] == 1:
+    fare_survived.append(fare[i])
+  else:
+    fare_not_survived.append(fare[i])
+    
+#ADD CODE: print lists
+print(fare_survived)
 
-titanic_lists_to_string = []
-for titanic_lists in listify:
-  titanic_string = (",").join(titanic_lists)
-  titanic_lists_to_string.append(titanic_string)
-complete_titanic = ("\n").join(titanic_lists_to_string)
-
-# Write your fresh string to a new .csv file
-with open("titanic.csv", "w") as file:
-  file.write("Survived,Pclass,Name,Sex,Age,Siblings/Spouses Aboard,Parents/Children Aboard,Fare\n")
-  file.write(complete_titanic)
+print(headers)
+print(fare_not_survived)
