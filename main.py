@@ -1,14 +1,26 @@
-# Import matplotlib library here
+import csv
+import numpy as np
 import matplotlib.pyplot as plt
 
-# Let's rank some of our favorite snacks
-snack_scores = [100, 80, 60]
-snack_names = ["yogurt", "watermelon", "peanuts"]
-               
-plt.pie(snack_scores, labels=snack_names)
+with open("tips.csv", "r") as file:
+  data = csv.reader(file,delimiter=",")
+  headers = next(data)
+  data_list = list(data)
+  data_numpy = np.array(data_list)
 
-# Give your pie chart a title in the quotes
-plt.title("Thais' favorite snacks")
+size = data_numpy[:,6]
+tips = np.array(data_numpy[:,1], dtype=float)
+bills = np.array(data_numpy[:,0], dtype=float)
+tip_percentages = tips/bills
 
-# Put the name of your file in the quotes and give it a .png extension
-plt.savefig("SnackVisual.png")
+print(f"The average bill amount is ${round(np.mean(bills), 2)}")
+print(f"The median bill amount is ${round(np.median(bills), 2)}")
+print(f"The smallest bill is ${round(np.min(bills), 2)}")
+print(f"The largest bill is ${round(np.max(bills), 2)}")
+
+plt.scatter(size,tip_percentages,color="#DFC57B")
+plt.xlabel("Dinner Party Size")
+plt.ylabel("Tip Percentage")
+plt.title("Tip by Party Size")
+
+plt.savefig("tip-size.png")
