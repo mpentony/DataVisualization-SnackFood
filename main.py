@@ -1,14 +1,16 @@
-# Import matplotlib library here
+import csv
+import numpy as np
 import matplotlib.pyplot as plt
+import seaborn as sns
+import pandas as pd
 
-# Let's rank some of our favorite snacks
-snack_scores = [100, 80, 60]
-snack_names = ["yogurt", "watermelon", "peanuts"]
-               
-plt.pie(snack_scores, labels=snack_names)
+dataframe = pd.read_csv("titanic.csv")
+dataframe = dataframe.replace({"Survived": {0: "Did Not Survive", 1: "Survived"}})
 
-# Give your pie chart a title in the quotes
-plt.title("Thais' favorite snacks")
+sns.scatterplot(x="Age", y="Fare", hue="Survived", data=dataframe)
 
-# Put the name of your file in the quotes and give it a .png extension
-plt.savefig("SnackVisual.png")
+plt.xlabel("Passenger Age")
+plt.ylabel("Passenger Fare")
+
+plt.title("Sinking of the Titanic Survivors")
+plt.savefig("titanic.png")
