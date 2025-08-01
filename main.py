@@ -1,14 +1,19 @@
-# Import matplotlib library here
-import matplotlib.pyplot as plt
+import requests
+from bs4 import BeautifulSoup
 
-# Let's rank some of our favorite snacks
-snack_scores = [100, 80, 60]
-snack_names = ["yogurt", "watermelon", "peanuts"]
-               
-plt.pie(snack_scores, labels=snack_names)
+honey_badger = requests.get("https://en.wikipedia.org/wiki/Honey_badger")
+honey_badger.raise_for_status()
+honey_badger_html = honey_badger.text.encode("utf-8")
+honey_badger_soup = BeautifulSoup(honey_badger_html, 'html.parser')
 
-# Give your pie chart a title in the quotes
-plt.title("Thais' favorite snacks")
+h2=honey_badger_soup.find_all("h2")
+print(len(h2))
 
-# Put the name of your file in the quotes and give it a .png extension
-plt.savefig("SnackVisual.png")
+for element in h2:
+  print(element)
+
+links=honey_badger_soup.find_all("a")
+print(links[:5])
+
+images=honey_badger_soup.find_all("img")
+print(images[-4:])
