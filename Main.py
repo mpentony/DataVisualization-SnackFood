@@ -1,6 +1,7 @@
 import requests
-import json
 from bs4 import BeautifulSoup
+import json
+
 
 
 def get_soup(url):
@@ -34,19 +35,18 @@ def get_animal(url):
 
 category_data = get_categories("https://skillcrush.github.io/web-scraping-endangered-species/")
 
-collected_data = []
 
+
+collected_data = []
 for category in category_data:
   for animal in category_data[category]:
     animal_href = animal["href"]
     animal_name = animal.contents[0]
     animal_class = get_animal(animal_href)
-    if len(animal_name) > 3:
-      collected_data.append({
-        "Category":category, 
-        "Animal Name":animal_name, 
-        "Animal Class":animal_class
-      })
-
+    if len(animal_name) >3:
+      collected_data.append({"category": category, "name": animal_name, "class": animal_class})  
+      
 with open("data.json", "w") as jsonfile:
   json.dump(collected_data, jsonfile)
+  print("Data written to file.")
+              
