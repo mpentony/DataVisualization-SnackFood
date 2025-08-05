@@ -1,14 +1,13 @@
-# Import matplotlib library here
+import pandas as pd
+import seaborn as sns
 import matplotlib.pyplot as plt
 
-# Let's rank some of our favorite snacks
-snack_scores = [100, 80, 60]
-snack_names = ["yogurt", "watermelon", "peanuts"]
-               
-plt.pie(snack_scores, labels=snack_names)
+with open("books.csv","r") as datafile:
+    data = pd.read_csv(datafile,delimiter=",")
 
-# Give your pie chart a title in the quotes
-plt.title("Thais' favorite snacks")
+sns.scatterplot(x="average_rating", y="# num_pages", size="# num_pages", sizes=(20, 180), data=data)
 
-# Put the name of your file in the quotes and give it a .png extension
-plt.savefig("SnackVisual.png")
+plt.xlabel("Average Rating")
+plt.ylabel("Number of Pages")
+plt.title("Average Rating vs Number of Pages")
+plt.savefig("scatterplot.png")
