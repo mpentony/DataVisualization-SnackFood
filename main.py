@@ -1,14 +1,46 @@
-# Import matplotlib library here
+import re
+import json
+import pandas as pd
+import seaborn as sns
 import matplotlib.pyplot as plt
+from statsmodels.graphics.mosaicplot import mosaic
 
-# Let's rank some of our favorite snacks
-snack_scores = [100, 80, 60]
-snack_names = ["yogurt", "watermelon", "peanuts"]
-               
-plt.pie(snack_scores, labels=snack_names)
+with open("data.json", "r") as text:
+    data = json.load(text)
 
-# Give your pie chart a title in the quotes
-plt.title("Thais' favorite snacks")
+for item in data:
+  item["Category"] = re.compile(" [\.(]").split(item["Category"])[0]
 
-# Put the name of your file in the quotes and give it a .png extension
-plt.savefig("SnackVisual.png")
+
+classes = ["Mammalia","Aves", "Reptilia"]
+statuses = ["Endangered", "Critically Endangered", "Vulnerable"]
+
+
+mosaic_data = []
+for item in data:
+    if item["Animal Class"] in classes and item["Category"] in statuses:
+     mosaic_data.append(item)
+
+properties = {
+    "Endangered": {"color": "#FACDB6"},
+    "Critcally Endangered": {"color": "#C5CADE"},
+    "Vulnerable": {"color": "#A8DBD2"},
+      
+}
+
+plt.rc("font", size=8)
+mosaic_dataframe = pd.DataFrame(mosaic_data)
+
+fig = mosaic (
+    mosaic_dataframe,
+    ["Category", "Animal Class"],
+    title="Conservation by Animal Class",
+    gap=[.02, .02],
+    axes_label=True,
+    properties = lambda x: properties[x[0]],
+    
+)
+
+plt.savefig("mosaic.png")
+
+    
